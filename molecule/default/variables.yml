@@ -1,0 +1,8 @@
+---
+newsboat_owner: sc
+newsboat_group: sc
+newsboat_home: /home/sc
+newsboat_directories:
+  - path: /home/sc/.newsboat
+    state: directory
+    mode: '0700'

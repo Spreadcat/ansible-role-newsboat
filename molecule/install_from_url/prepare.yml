@@ -1,0 +1,19 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: MOLECULE - INCLUDE VARS
+      ansible.builtin.include_vars: variables.yml
+
+    - name: MOLECULE - CREATE TESTUSER
+      ansible.builtin.user:
+        name: "{{ newsboat_owner }}"
+        state: present
+
+    - name: MOLECULE - CONFIGURE SUDO
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/sc
+        line: "{{ newsboat_owner }} ALL=(ALL) NOPASSWD:ALL"
+        state: present
+        create: true

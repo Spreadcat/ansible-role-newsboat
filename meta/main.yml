@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Daniel Buøy-Vehn
+  namespace: spreadcat
+  description: Role to setup newsboat.
+  role_name: newsboat
+  license: BSD
+  min_ansible_version: 2.9
+  platforms:
+    - name: Fedora
+      versions:
+        - 34
+        - 35
+        - 36
+    - name: Ubuntu
+      versions:
+        - Bionic
+        - Focal
+        - Jammy
+  galaxy_tags: []
+dependencies: []
+...

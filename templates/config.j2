@@ -1,0 +1,7 @@
+# Newsboat config file
+# Ansible managed
+
+{% for line in newsboat_config -%}
+{{ line }}
+{% endfor -%}
+

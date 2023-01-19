@@ -1,0 +1,35 @@
+---
+# tasks file for dbv_newsboat
+#
+# Check if newsboat is installed
+
+- name: URL REQUIREMENT
+  when: newsboat_install_type == 'url'
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - newsboat_download_url|length > 0
+    fail_msg: 'Please define newsboat_rpm_download_url when setting newsboat_install_type to "url".'
+
+# This requires the "shell" module. the command module fails on ubuntu 1804/2004
+- name: CHECK FOR NEWSBOAT INSTALLATION
+  shell: 'command -v newsboat' # noqa command-instead-of-shell
+  register: _command_newsboat
+  changed_when: false
+  failed_when: true
+  ignore_errors: true
+
+- name: FETCH NEWSBOAT VERSION
+  when: not _command_newsboat.failed
+  block:
+    - name: GET NEWSBOAT VERSION
+      shell: "newsboat --version | grep Newsboat | head -n 1 | cut -d ' ' -f 2"
+      register: _shell_newsboat_version
+      changed_when: false
+
+    - name: REGISTER INSTALLED NEWSBOAT VERSION
+      set_fact:
+        newsboat_installed_version: "{{ _shell_newsboat_version.stdout }}"
+
+- include_tasks: install.yml
+- include_tasks: config.yml

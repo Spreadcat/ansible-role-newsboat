@@ -1,0 +1,17 @@
+---
+- name: APT CACHE
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family|lower == 'debian'
+  changed_when: false
+
+- name: ENSURE PACKAGE INSTALLATION
+  become: true
+  package:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default(omit) }}"
+  loop: "{{ newsboat_packages | default([]) }}"
+
+...

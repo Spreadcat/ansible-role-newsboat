@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: MOLECULE - INCLUDE VARS
+      include_vars: ./variables.yml
+    - name: MOLECULE - INCLUDE SPREADCAT.NEWSBOAT
+      include_role:
+        name: "spreadcat.newsboat"

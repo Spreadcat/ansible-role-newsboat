@@ -1,0 +1,38 @@
+---
+# Newsboat installation via RPM package to download
+- name: MANAGE AND INSTALL TAR.GZ PACKAGE
+  ansible.builtin.unarchive:
+    src: "{{ newsboat_download_url }}"
+    dest: /tmp
+    remote_src: true
+    creates: "/tmp/{{ newsboat_download_url|basename }}"
+
+- name: APT CACHE
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family|lower == 'debian'
+  changed_when: false
+
+- name: STORE UNARCHIVE LOCATION
+  set_fact:
+    newsboat_unarchive_destination: "/tmp/newsboat-{{ newsboat_download_url|basename|replace('.tar.gz','') }}"
+
+- name: INSTALL BUILD REQUIREMENTS
+  package:
+    name: "{{ item }}"
+  loop: "{{ newsboat_build[ansible_os_family|lower] }}"
+
+- name: INSTALL WHEN MISSING
+  when: _command_newsboat.failed
+  block:
+    - name: COMPILE SOURCE
+      community.general.make:
+        chdir: "{{ newsboat_unarchive_destination }}"
+
+    - name: INSTALL SOURCE
+      become: true
+      community.general.make:
+        target: install
+        chdir: "{{ newsboat_unarchive_destination }}"

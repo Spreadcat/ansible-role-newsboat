@@ -1,0 +1,71 @@
+---
+# defaults file for dbv_newsboat
+#
+newsboat_packages:
+  - name: newsboat
+
+newsboat_home: "{{ lookup('env', 'HOME') }}"
+newsboat_owner: "{{ lookup('env', 'USER') }}"
+newsboat_group: "{{ lookup('env', 'USER') }}"
+
+newsboat_directories:
+  - path: "{{ newsboat_home }}/.newsboat"
+    state: directory
+    mode: '0700'
+
+# Default newsboat config variables
+newsboat_config: []
+
+# Default newsboat urls (none)
+newsboat_urls: []
+
+# Installation type as string
+# Values:
+# - package
+# - url
+# If set to 'url', the version number will no be considered.
+newsboat_install_type: package
+
+# Newsboat version to install
+newsboat_version: 2.28
+
+# Newsboat version to install as a package
+newsboat_package_version: "{{ newsboat_version }}"
+
+# Download url required when newsboat_install_type is set to url
+newsboat_download_url: 'https://github.com/newsboat/newsboat.git'
+
+# Newsboat build requirements
+newsboat_build:
+  debian:
+    - asciidoctor
+    - cargo
+    - gcc
+    - gettext
+    - libcurl4-openssl-dev
+    - libjson-c-dev
+    - libsqlite3-dev
+    - libstfl-dev
+    - libxml2-dev
+    - make
+    - openssl
+    - pkg-config
+    - rustc
+  redhat:
+    - cargo
+    - gcc
+    - gcc-c++
+    - gettext
+    - rubygem-json
+    - libxml2-devel
+    - libcurl-devel
+    - json-c-devel
+    - rubygem-ncursesw
+    - ncurses-devel
+    - make
+    - rubygem-asciidoctor
+    - rust
+    - sqlite-devel
+    - findutils
+    - stfl-devel
+...

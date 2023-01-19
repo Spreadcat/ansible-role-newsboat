@@ -1,0 +1,27 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: MOLECULE - INCLUDE VARS
+      ansible.builtin.include_vars: variables.yml
+
+    - name: MOLECULE - CREATE TESTUSER
+      ansible.builtin.user:
+        name: "{{ stup_config_owner }}"
+        state: present
+
+    - name: MOLECULE - CONFIGURE SUDO
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/sc
+        line: "{{ stup_config_owner }} ALL=(ALL) NOPASSWD:ALL"
+        state: present
+        create: true
+
+    - name: CREATE REQUIRED DIRECTORY
+      ansible.builtin.file:
+        state: directory
+        path: "{{ stup_config_path | dirname }}"
+        owner: "{{ stup_config_owner }}"
+        group: "{{ stup_config_group }}"
+        mode: '0755'

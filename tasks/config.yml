@@ -1,0 +1,19 @@
+---
+# Config file for newsboat
+- name: MANAGE CONFIG
+  template:
+    src: config.j2
+    dest: "{{ newsboat_home }}/.newsboat/config"
+    owner: "{{ newsboat_owner }}"
+    group: "{{ newsboat_group }}"
+    mode: '0700'
+    force: true
+
+- name: MANAGE URLS
+  template:
+    src: urls.j2
+    dest: "{{ newsboat_home }}/.newsboat/urls"
+    owner: "{{ newsboat_owner }}"
+    group: "{{ newsboat_group }}"
+    mode: '0700'
+...
