@@ -9,74 +9,66 @@ The newsboat package must be either available through the package system or avai
 ## Role Variables
 
 ```yaml
-newsboat_config: []
+newsboat_config: list
 ```
 
-* List with configuration settings for newsboat. Each line contains one configuration entry for the newsboat configuraiton file.
+* List of entries for the configuration file for newsboat.
 
 ```yaml
-newsboat_install_type: package
+newsboat_package_version: str
 ```
 
-* String defining the install method to use. Valid values are `package` (default) and `url`.
+* Newsboat version to install as a package. Defaults to `newsboat_version`.
 
 ```yaml
-newsboat_urls: []
+newsboat_packages: list
 ```
 
-* List of URLs for newsboat to fetch RSS from. Each entry contains one line from the URL file.
-
-## Other variables
+* List of packages to install for newsboat.
 
 ```yaml
-newsboat_build: {}
+newsboat_urls: list
 ```
 
-* Pre-set dictionary with dependencies for building [newsboat][#newsboat] from the source code.
+* List of URL entries for the newsboat URL file.
+
+## Other Variables
 
 ```yaml
-newsboat_download_url: 'https://github.com/newsboat/newsboat.git'
+newsboat_build: dict
 ```
 
-* String with the URL to the [newsboat][#github] repository. Required when `newsboat_install_type` has been setup to `url`.
+* Dictionary with packages to install when building newsboat from the URL sources.
 
 ```yaml
-newsboat_group: "{{ lookup('env', 'USER') }}"
+newsboat_directories: list
 ```
 
-* String with the group of the owner of the newsboat configuration. Default is being set to the user running the newsboat playbook.
+* List of directories required for newsboat to be installed.
 
 ```yaml
-newsboat_home: "{{ lookup('env', 'HOME') }}"
+newsboat_download_url: str
 ```
 
-* String with the path to the home directory of the current user. Default is being set to the user running the newsboat playbook.
+* URL for downloading newsboat when using newsboat_install_type: url.
 
 ```yaml
-newsboat_owner: "{{ lookup('env', 'USER') }}"
+newsboat_group: str
 ```
 
-* String with the owner of the newsboat configuration. Default is being set to the user running the newsboat playbook.
+* Group-name of the group owning the newsboat configuration and URL files.
 
 ```yaml
-newsboat_packages:
-  - name: newsboat
-    state: present
+newsboat_home: str
 ```
 
-* List of packackages to install from the package repository for newsboat.
+* Path to the home directory of the user running newsboat.
 
 ```yaml
-newsboat_package_version: "{{ newsboat_version }}"
+newsboat_owner: str
 ```
 
-* String that defines the package version to be installed.
-
-```yaml
-newsboat_version: 2.28
-```
-
-String to define the newsboat version to install.
+* Username of the owner of the newsboat configuration and URL files.
 
 ## Dependencies
 

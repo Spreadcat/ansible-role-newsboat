@@ -1,35 +1,37 @@
 ---
-# tasks file for dbv_newsboat
-#
-# Check if newsboat is installed
-
-- name: URL REQUIREMENT
+- name: "URL requirement."
   when: newsboat_install_type == 'url'
   ansible.builtin.assert:
     quiet: true
     that:
       - newsboat_download_url|length > 0
-    fail_msg: 'Please define newsboat_rpm_download_url when setting newsboat_install_type to "url".'
+    fail_msg: >
+      Please define newsboat_rpm_download_url when setting
+      newsboat_install_type to "url".'
 
 # This requires the "shell" module. the command module fails on ubuntu 1804/2004
-- name: CHECK FOR NEWSBOAT INSTALLATION
-  shell: 'command -v newsboat' # noqa command-instead-of-shell
+- name: "Check for any existing newsboat installation."
+  ansible.builtin.shell: 'command -v newsboat'  # noqa command-instead-of-shell
   register: _command_newsboat
-  changed_when: false
-  failed_when: true
+  changed_when: _command_newsboat.rc != 0
+  failed_when: "'FAILED' in _command_newsboat.stdout"
   ignore_errors: true
 
-- name: FETCH NEWSBOAT VERSION
+- name: "Fetch newsboat version."
   when: not _command_newsboat.failed
   block:
-    - name: GET NEWSBOAT VERSION
-      shell: "newsboat --version | grep Newsboat | head -n 1 | cut -d ' ' -f 2"
+    - name: "Get newsboat version."
+      ansible.builtin.shell:
+        cmd: "newsboat --version | grep Newsboat | head -n 1 | cut -d ' ' -f 2"
       register: _shell_newsboat_version
       changed_when: false
 
-    - name: REGISTER INSTALLED NEWSBOAT VERSION
-      set_fact:
+    - name: "Register installed newsboat version."
+      ansible.builtin.set_fact:
         newsboat_installed_version: "{{ _shell_newsboat_version.stdout }}"
 
-- include_tasks: install.yml
-- include_tasks: config.yml
+- name: "Include install tasks."
+  ansible.builtin.include_tasks: install.yml
+
+- name: "Include config tasks."
+  ansible.builtin.include_tasks: config.yml

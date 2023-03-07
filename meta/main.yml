@@ -9,12 +9,10 @@ galaxy_info:
   platforms:
     - name: Fedora
       versions:
-        - 34
-        - 35
         - 36
+        - 37
     - name: Ubuntu
       versions:
-        - Bionic
         - Focal
         - Jammy
   galaxy_tags: []

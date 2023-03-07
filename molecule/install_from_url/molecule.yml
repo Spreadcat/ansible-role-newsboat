@@ -4,20 +4,9 @@ dependency:
 driver:
   name: podman
 platforms:
-  - name: fedora35
-    image: docker.io/geerlingguy/docker-fedora35-ansible
-    tmpfs:
-      - /run
-      - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    capabilities:
-      - SYS_ADMIN
-    command: "/lib/systemd/systemd"
-    pre_build_image: true
 
   - name: fedora36
-    image: docker.io/geerlingguy/docker-fedora36-ansible
+    image: localhost/fedora36-ansible-nonroot
     tmpfs:
       - /run
       - /tmp
@@ -28,8 +17,8 @@ platforms:
     command: "/lib/systemd/systemd"
     pre_build_image: true
 
-  - name: ubuntu1804
-    image: docker.io/geerlingguy/docker-ubuntu1804-ansible
+  - name: fedora37
+    image: localhost/fedora37-ansible-nonroot
     tmpfs:
       - /run
       - /tmp
@@ -41,7 +30,7 @@ platforms:
     pre_build_image: true
 
   - name: ubuntu2004
-    image: docker.io/geerlingguy/docker-ubuntu2004-ansible
+    image: localhost/ubuntu2004-ansible-nonroot
     tmpfs:
       - /run
       - /tmp
@@ -53,7 +42,7 @@ platforms:
     pre_build_image: true
 
   - name: ubuntu2204
-    image: docker.io/geerlingguy/docker-ubuntu2204-ansible
+    image: localhost/ubuntu2204-ansible-nonroot
     tmpfs:
       - /run
       - /tmp
@@ -65,6 +54,16 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      ubuntu2004:
+        ansible_user: ansible
+      ubuntu2204:
+        ansible_user: ansible
+      fedora36:
+        ansible_user: ansible
+      fedora37:
+        ansible_user: ansible
   config_options:
     defaults:
       interpreter_python: auto_silent
@@ -73,6 +72,18 @@ provisioner:
       pipelining: true
 verifier:
   name: ansible
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - destroy
 lint: |
   set -e
   yamllint .

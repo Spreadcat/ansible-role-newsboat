@@ -1,41 +1,125 @@
 ---
-# defaults file for dbv_newsboat
+# List of packages to install for newsboat.
 #
+# The key `state` is optional.
+#
+# Example:
+#   newsboat_packages:
+#     - name: newsboat
+#       state: latest
+# doca tags:role
 newsboat_packages:
   - name: newsboat
 
+# Path to the home directory of the user running newsboat.
+#
+# Per default set to the current users home directory.
+#
+# Example:
+#   newsboat_home: /home/user1
+# doca tags:other
 newsboat_home: "{{ lookup('env', 'HOME') }}"
+
+# Username of the owner of the newsboat configuration and URL files.
+#
+# Per default set to the current user executing the role.
+#
+# Example:
+#   newsboat_owner: user1
+# doca tags:other
 newsboat_owner: "{{ lookup('env', 'USER') }}"
+
+# Groupname of the group owning the newsboat configuration and URL files.
+#
+# Per default set to the current user's username.
+#
+# Example:
+#   newsboat_group: user1
+# doca: tags:other
 newsboat_group: "{{ lookup('env', 'USER') }}"
 
+# List of directories required for newsboat to be installed.
+#
+# Example:
+#   newsboat_directories:
+#     - path: "/home/user1/.newsboat"
+#       state: directory
+#       mode: "0700"
+# doca tags:other
 newsboat_directories:
   - path: "{{ newsboat_home }}/.newsboat"
     state: directory
     mode: '0700'
 
-# Default newsboat config variables
+# List of enctries for the configuration file for newsboat.
+#
+# Each list element corresponds with one line in the configuration file.
+#
+# Example:
+#   newsboat_config:
+#     - autoreload no
+#     - cleanup-on-quit yes
+#     - download-timeout 10
+# doca tags:role
 newsboat_config: []
 
-# Default newsboat urls (none)
+# List of URL entries for the newsboat URL file.
+#
+# Each entry corresponds to one line in the URL file.
+#
+# Example:
+#   newsboat_urls:
+#     - 'https://example.com/atom.xml'
+# doca tags:role
 newsboat_urls: []
 
-# Installation type as string
-# Values:
-# - package
-# - url
-# If set to 'url', the version number will no be considered.
+# Setting the installation type. Default is 'package'.
+#
+# Values are:
+#   * package
+#   * url
+#
+# When setting the type to `url`, the version number will
+# not be considered and only the url be used.
+#
+# Exampe:
+#   newsboat_install_type: "url"
 newsboat_install_type: package
 
-# Newsboat version to install
+# Version number of newsboat to install.
+#
+# Example:
+#   newsboat_version: "2.28"
+# doca tags:roles type:string
 newsboat_version: 2.28
 
-# Newsboat version to install as a package
+# Newsboat version to install as a package. Defaults to
+# `newsboat_version`.
+#
+# Example:
+#   newsboat_package_version: "2.28"
+# doca tags:role
 newsboat_package_version: "{{ newsboat_version }}"
 
-# Download url required when newsboat_install_type is set to url
+# URL for downloading newsboat when using newsboat_install_type: url.
+#
+# Example:
+#   newsboat_download_url: "https://example.com/newsboat.git"
+# doca tags:other
 newsboat_download_url: 'https://github.com/newsboat/newsboat.git'
 
-# Newsboat build requirements
+# Dictionary with packages to install when building newsboat
+# from the URL sources.
+#
+# Example:
+#   newsboat_build:
+#     debian:
+#       - package1
+#       - package2
+#     redhat:
+#       - package1
+#       - package2
+# doca tags:other
 newsboat_build:
   debian:
     - asciidoctor

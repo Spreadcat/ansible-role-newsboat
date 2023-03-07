@@ -1,8 +1,8 @@
 ---
-newsboat_owner: sc
-newsboat_group: sc
-newsboat_home: /home/sc
+newsboat_owner: ansible
+newsboat_group: ansible
+newsboat_home: /home/ansible
 newsboat_directories:
-  - path: /home/sc/.newsboat
+  - path: /home/ansible/.newsboat
     state: directory
     mode: '0700'

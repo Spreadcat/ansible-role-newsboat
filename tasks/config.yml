@@ -1,6 +1,6 @@
 ---
 # Config file for newsboat
-- name: MANAGE CONFIG
+- name: "Manage configuration file."
   template:
     src: config.j2
     dest: "{{ newsboat_home }}/.newsboat/config"
@@ -9,7 +9,7 @@
     mode: '0700'
     force: true
 
-- name: MANAGE URLS
+- name: "Manage URLs."
   template:
     src: urls.j2
     dest: "{{ newsboat_home }}/.newsboat/urls"

@@ -1,17 +1,16 @@
 ---
-- name: APT CACHE
+- name: "Update APT cache."
   become: true
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
   when: ansible_os_family|lower == 'debian'
   changed_when: false
 
-- name: ENSURE PACKAGE INSTALLATION
+- name: "Ensure package installation."
   become: true
-  package:
+  ansible.builtin.package:
     name: "{{ item.name }}"
     state: "{{ item.state | default(omit) }}"
   loop: "{{ newsboat_packages | default([]) }}"
-
 ...
