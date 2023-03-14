@@ -1,7 +1,8 @@
 ---
-- hosts: all
+- name: "Prepare | Containers."
+  hosts: all
   gather_facts: false
   tasks:
 
-    - name: "Molecule - include variables."
+    - name: "Prepare | Include variables."
       ansible.builtin.include_vars: variables.yml

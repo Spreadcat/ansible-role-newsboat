@@ -5,16 +5,16 @@ galaxy_info:
   description: Role to setup newsboat.
   role_name: newsboat
   license: BSD
-  min_ansible_version: 2.9
+  min_ansible_version: "2.9"
   platforms:
     - name: Fedora
       versions:
-        - 36
-        - 37
+        - "36"
+        - "37"
     - name: Ubuntu
       versions:
-        - Focal
-        - Jammy
+        - focal
+        - jammy
   galaxy_tags: []
 dependencies: []
 ...
