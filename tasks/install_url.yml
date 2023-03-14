@@ -1,13 +1,13 @@
 ---
 # Newsboat installation via RPM package to download
-- name: "Manage and install tag.tz package."
+- name: "Install URL | Manage and install tar.tz package."
   ansible.builtin.unarchive:
     src: "{{ newsboat_download_url }}"
     dest: /tmp
     remote_src: true
-    creates: "/tmp/{{ newsboat_download_url|basename }}"
+    creates: "/tmp/{{ newsboat_download_url | basename }}"
 
-- name: "Update APT cache."
+- name: "Install URL | Update APT cache."
   become: true
   ansible.builtin.apt:
     update_cache: true
@@ -15,24 +15,26 @@
   when: ansible_os_family|lower == 'debian'
   changed_when: false
 
-- name: "Store unarchive location."
+- name: "Install URL | Store unarchive location."
   ansible.builtin.set_fact:
+    # yamllint disable rule:line-length
     newsboat_unarchive_destination: >-
-      "/tmp/newsboat-{{ newsboat_download_url|basename|replace('.tar.gz','') }}"
+      "/tmp/newsboat-{{ newsboat_download_url | basename | replace('.tar.gz', '') }}"
+    # yamllint enable rule:line-length
 
-- name: "Install build rewquirements."
+- name: "Install URL | Install build rewquirements."
   ansible.builtin.package:
     name: "{{ item }}"
-  loop: "{{ newsboat_build[ansible_os_family|lower] }}"
+  loop: "{{ newsboat_build[ansible_os_family | lower] }}"
 
-- name: "Install newsboat when missing."
+- name: "Install URL | Install newsboat when missing."
   when: _command_newsboat.failed
   block:
-    - name: "Compile source-code."
+    - name: "Install URL | Compile source-code."
       community.general.make:
         chdir: "{{ newsboat_unarchive_destination }}"
 
-    - name: "Install source-code."
+    - name: "Install URL | Install source-code."
       become: true
       community.general.make:
         target: install

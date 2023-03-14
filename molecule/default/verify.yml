@@ -4,50 +4,50 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: "Include variables."
+    - name: "Verify | Include variables."
       ansible.builtin.include_vars: variables.yml
 
-    - name: "Check for existing newsboat installation:"
+    - name: "Verify | Check for existing newsboat installation:"
       ansible.builtin.shell: command -v newsboat
       register: _command_newsboat
       changed_when: false
 
-    - name: "Assert that newsboat is installed."
+    - name: "Verify | Assert that newsboat is installed."
       ansible.builtin.assert:
         that: _command_newsboat.rc == 0
         quiet: true
 
-    - name: "Check all directories exist."
+    - name: "Verify | Check all directories exist."
       ansible.builtin.stat:
         path: "{{ item.path }}"
       loop: "{{ newsboat_directories }}"
       register: _stat_newsboat_directories
 
-    - name: "Assert the newsboat user directory exists."
+    - name: "Verify | Assert the newsboat user directory exists."
       ansible.builtin.assert:
         that:
           - item.stat.exists
         quiet: true
       loop: "{{ _stat_newsboat_directories.results }}"
 
-    - name: "Check the configuration file exists."
+    - name: "Verify | Check the configuration file exists."
       ansible.builtin.stat:
         path: "{{ newsboat_home }}/.newsboat/config"
       register: _newsboat_config
 
-    - name: ASSERT CONFIG FILE EXIST
+    - name: "Verify | Assert config file exists."
       ansible.builtin.assert:
         that:
           - _newsboat_config.stat.exists
           - _newsboat_config.stat.mode == '0700'
         quiet: true
 
-    - name: CHECK URL FILE EXISTS
+    - name: "Verify | Assert URL file exists."
       ansible.builtin.stat:
         path: "{{ newsboat_home }}/.newsboat/urls"
       register: _newsboat_urls
 
-    - name: ASSERT THE URLS FILE EXISTS
+    - name: "Verify | Assert URLS file exists."
       ansible.builtin.assert:
         quiet: true
         that:
