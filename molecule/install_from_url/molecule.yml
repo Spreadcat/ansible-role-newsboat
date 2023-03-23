@@ -73,7 +73,7 @@ provisioner:
 verifier:
   name: ansible
 scenario:
-  name: default
+  name: install_from_url
   test_sequence:
     - lint
     - destroy

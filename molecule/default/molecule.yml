@@ -52,6 +52,7 @@ platforms:
       - SYS_ADMIN
     command: "/lib/systemd/systemd"
     pre_build_image: true
+
 provisioner:
   name: ansible
   inventory:
@@ -70,8 +71,10 @@ provisioner:
       callback_whitelist: profile_tasks, timer, yaml
     ssh_connection:
       pipelining: true
+
 verifier:
   name: ansible
+
 scenario:
   name: default
   test_sequence:

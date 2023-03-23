@@ -1,5 +1,5 @@
 ---
-- name: "URL requirement."
+- name: "Main | URL requirement."
   when: newsboat_install_type == 'url'
   ansible.builtin.assert:
     quiet: true
@@ -10,28 +10,28 @@
       newsboat_install_type to "url".'
 
 # This requires the "shell" module. the command module fails on ubuntu 1804/2004
-- name: "Check for any existing newsboat installation."
+- name: "Main | Check for existing newsboat installation."
   ansible.builtin.shell: 'command -v newsboat'  # noqa command-instead-of-shell
   register: _command_newsboat
   changed_when: _command_newsboat.rc != 0
   failed_when: "'FAILED' in _command_newsboat.stdout"
   ignore_errors: true
 
-- name: "Fetch newsboat version."
+- name: "Main | Fetch newsboat version."
   when: not _command_newsboat.failed
   block:
-    - name: "Get newsboat version."
+    - name: "Main | Get newsboat version."
       ansible.builtin.shell:
         cmd: "newsboat --version | grep Newsboat | head -n 1 | cut -d ' ' -f 2"
       register: _shell_newsboat_version
       changed_when: false
 
-    - name: "Register installed newsboat version."
+    - name: "Main | Register installed newsboat version."
       ansible.builtin.set_fact:
         newsboat_installed_version: "{{ _shell_newsboat_version.stdout }}"
 
-- name: "Include install tasks."
+- name: "Main | Include install tasks."
   ansible.builtin.include_tasks: install.yml
 
-- name: "Include config tasks."
+- name: "Main | Include config tasks."
   ansible.builtin.include_tasks: config.yml

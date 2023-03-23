@@ -2,6 +2,5 @@
 - hosts: all
   gather_facts: false
   tasks:
-
-    - name: "Molecule - include variables."
+    - name: "Molecule default | Include variables."
       ansible.builtin.include_vars: variables.yml

@@ -4,52 +4,47 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: "Include variables."
+    - name: "Molecule default | Include variables."
       ansible.builtin.include_vars: variables.yml
 
-    - name: "Check for newsboat installation."
-      ansible.builtin.shell: command -v newsboat
-      register: _command_newsboat
-      changed_when: false
+    - name: "Molecule default | Check Newsboat is installed."
+      ansible.builtin.shell:
+        cmd: command -v newsboat
+      register: __verify_command
+      changed_when: __verify_command.rc != 0
+      failed_when: __verify_command.rc != 0
 
-    - name: "Assert newsboat is installed."
-      ansible.builtin.assert:
-        that: _command_newsboat.rc == 0
-        quiet: true
-
-    - name: "CHeck the directories exist."
+    - name: "Molecule default | Check all directories exist."
       ansible.builtin.stat:
         path: "{{ item.path }}"
       loop: "{{ newsboat_directories }}"
       register: _stat_newsboat_directories
 
-    - name: "Assert the user newsboat directory exist."
+    - name: "Molecule default | Assert the newsboat user directory exists."
       ansible.builtin.assert:
         that:
           - item.stat.exists
         quiet: true
       loop: "{{ _stat_newsboat_directories.results }}"
 
-    - name: "Check the configuration file exists."
+    - name: "Molecule default | Check the configuration file exists."
       ansible.builtin.stat:
         path: "{{ newsboat_home }}/.newsboat/config"
       register: _newsboat_config
 
-    - name: "Assert the configuration file exists."
+    - name: "Molecule default | Assert configuration file exists."
       ansible.builtin.assert:
         that:
           - _newsboat_config.stat.exists
           - _newsboat_config.stat.mode == '0700'
         quiet: true
 
-    - name: "Check the URL file exists."
+    - name: "Molecule default | Check the URLS file exists."
       ansible.builtin.stat:
         path: "{{ newsboat_home }}/.newsboat/urls"
-      register: _newsboat_urls
-
-    - name: "Assert the URL file exists."
-      ansible.builtin.assert:
-        quiet: true
-        that:
-          - _newsboat_urls.stat.exists
-          - _newsboat_urls.stat.mode == '0700'
+      register: __verify_file
+      failed_when: >
+        __verify_file is changed or
+        __verify_file is failed or
+        not __verify_file.stat.exists or
+        __verify_file.stat.mode != '0700'

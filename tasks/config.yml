@@ -1,7 +1,7 @@
 ---
 # Config file for newsboat
-- name: "Manage configuration file."
-  template:
+- name: "Config | Manage configuration file."
+  ansible.builtin.template:
     src: config.j2
     dest: "{{ newsboat_home }}/.newsboat/config"
     owner: "{{ newsboat_owner }}"
@@ -9,8 +9,8 @@
     mode: '0700'
     force: true
 
-- name: "Manage URLs."
-  template:
+- name: "Config | Manage URLs."
+  ansible.builtin.template:
     src: urls.j2
     dest: "{{ newsboat_home }}/.newsboat/urls"
     owner: "{{ newsboat_owner }}"

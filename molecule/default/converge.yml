@@ -2,9 +2,9 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Molecule - include vars."
+    - name: "Molecule default | Include vars."
       ansible.builtin.include_vars: ./variables.yml
 
-    - name: "Molecule - Include role."
+    - name: "Molecule default | Include role."
       ansible.builtin.include_role:
         name: spreadcat.newsboat
