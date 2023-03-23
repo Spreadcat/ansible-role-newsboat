@@ -16,6 +16,7 @@
 
 - name: "Install URL | Store unarchive location."
   ansible.builtin.set_fact:
+    # yamllint disable rule:line-length
     newsboat_unarchive_destination: >-
       /tmp/newsboat-{{ newsboat_download_url
       | basename
