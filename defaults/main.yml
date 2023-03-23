@@ -91,7 +91,7 @@ newsboat_install_type: package
 # Example:
 #   newsboat_version: "2.28"
 # doca tags:roles type:string
-newsboat_version: 2.28
+newsboat_version: "2.28"
 
 # Newsboat version to install as a package. Defaults to
 # `newsboat_version`.

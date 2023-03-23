@@ -1,5 +1,5 @@
 ---
-- name: "Manage directories."
+- name: "Install | Manage directories."
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: "{{ item.state | default(omit) }}"
@@ -8,10 +8,10 @@
     mode: "{{ item.mode | default(omit) }}"
   loop: "{{ newsboat_directories | default({}) }}"
 
-- name: "Include install_package tasks."
+- name: "Install | Include install_package tasks."
   ansible.builtin.include_tasks: install_package.yml
   when: newsboat_install_type == 'package'
 
-- name: "Include install_url tasks."
+- name: "Install | Include install_url tasks."
   ansible.builtin.include_tasks: install_url.yml
   when: newsboat_install_type == 'url'

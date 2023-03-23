@@ -3,5 +3,5 @@
   gather_facts: false
   tasks:
 
-    - name: "Molecule - include vars."
+    - name: "Molecule | Include vars."
       ansible.builtin.include_vars: variables.yml

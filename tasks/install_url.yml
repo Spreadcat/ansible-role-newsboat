@@ -1,6 +1,5 @@
 ---
-# Newsboat installation via RPM package to download
-- name: "Install URL | Manage and install tar.tz package."
+- name: "Install URL | Manage and install tag.tz package."
   ansible.builtin.unarchive:
     src: "{{ newsboat_download_url }}"
     dest: /tmp
@@ -19,10 +18,12 @@
   ansible.builtin.set_fact:
     # yamllint disable rule:line-length
     newsboat_unarchive_destination: >-
-      "/tmp/newsboat-{{ newsboat_download_url | basename | replace('.tar.gz', '') }}"
-    # yamllint enable rule:line-length
+      /tmp/newsboat-{{ newsboat_download_url
+      | basename
+      | replace('.tar.gz', '') }}
 
 - name: "Install URL | Install build rewquirements."
+  become: true
   ansible.builtin.package:
     name: "{{ item }}"
   loop: "{{ newsboat_build[ansible_os_family | lower] }}"
