@@ -4,7 +4,8 @@ A Role that installs [newsboat][#newsboat] on the local system.
 
 ## Requirements
 
-The newsboat package must be either available through the package system or available on the [github][#github] repository.
+* The newsboat package must be either available through the package system or available on the [github][#github] repository.
+* The role requires `gathered_facts: true` to be set.
 
 ## Role Variables
 
