@@ -5,6 +5,7 @@
     dest: /tmp
     remote_src: true
     creates: "/tmp/{{ newsboat_download_url | basename }}"
+  changed_when: false
 
 - name: "Install URL | Update APT cache."
   become: true

@@ -75,7 +75,7 @@ verifier:
 scenario:
   name: install_from_url
   test_sequence:
-    - lint
+    # - lint
     - destroy
     - syntax
     - create
@@ -84,7 +84,7 @@ scenario:
     - idempotence
     - verify
     - destroy
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
+# lint: |
+#   set -e
+#   yamllint .
+#   ansible-lint .

@@ -13,8 +13,8 @@
 - name: "Main | Check for existing newsboat installation."
   ansible.builtin.shell: 'command -v newsboat'  # noqa command-instead-of-shell
   register: _command_newsboat
-  changed_when: _command_newsboat.rc != 0
-  failed_when: "'FAILED' in _command_newsboat.stdout"
+  changed_when: false
+  failed_when: _command_newsboat.rc != 0
   ignore_errors: true
 
 - name: "Main | Fetch newsboat version."
@@ -22,7 +22,9 @@
   block:
     - name: "Main | Get newsboat version."
       ansible.builtin.shell:
-        cmd: "newsboat --version | grep Newsboat | head -n 1 | cut -d ' ' -f 2"
+        cmd: |
+          set -o pipefail
+          newsboat --version | grep Newsboat | head -n 1 | cut -d ' ' -f 2
       register: _shell_newsboat_version
       changed_when: false
 
