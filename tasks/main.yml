@@ -25,6 +25,8 @@
         cmd: |
           set -o pipefail
           newsboat --version | grep Newsboat | head -n 1 | cut -d ' ' -f 2
+      args:
+        executable: /bin/bash
       register: _shell_newsboat_version
       changed_when: false
 

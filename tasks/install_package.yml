@@ -3,9 +3,16 @@
   become: true
   ansible.builtin.apt:
     update_cache: true
-    cache_valid_time: 3600
+    cache_valid_time: 7200
   when: ansible_os_family|lower == 'debian'
   changed_when: false
+
+# Using only the apt-module in the task above faild in recent tests.
+- name: Update the apt-cache on debian based systems.  # noqa command-instead-of-module
+  ansible.builtin.command: apt-get update
+  become: true
+  changed_when: false
+  when: ansible_os_family|lower == 'debian'
 
 - name: "Install package | Manage package installation."
   become: true
