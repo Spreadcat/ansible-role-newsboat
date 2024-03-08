@@ -18,7 +18,7 @@ newsboat_packages:
 # Example:
 #   newsboat_home: /home/user1
 # doca tags:other
-newsboat_home: "{{ lookup('env', 'HOME') }}"
+newsboat_home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
 
 # Username of the owner of the newsboat configuration and URL files.
 #
@@ -27,7 +27,7 @@ newsboat_home: "{{ lookup('env', 'HOME') }}"
 # Example:
 #   newsboat_owner: user1
 # doca tags:other
-newsboat_owner: "{{ lookup('env', 'USER') }}"
+newsboat_owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
 
 # Groupname of the group owning the newsboat configuration and URL files.
 #
@@ -36,7 +36,7 @@ newsboat_owner: "{{ lookup('env', 'USER') }}"
 # Example:
 #   newsboat_group: user1
 # doca: tags:other
-newsboat_group: "{{ lookup('env', 'USER') }}"
+newsboat_group: "{{ lookup('ansible.builtin.env', 'USER') }}"
 
 # List of directories required for newsboat to be installed.
 #
