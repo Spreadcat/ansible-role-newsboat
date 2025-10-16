@@ -4,7 +4,8 @@ A Role that installs [newsboat][#newsboat] on the local system.
 
 ## Requirements
 
-* The newsboat package must be either available through the package system or available on the [github][#github] repository.
+* The newsboat package must be either available through the package system or
+  available on the [github][#github] repository.
 * The role requires `gathered_facts: true` to be set.
 
 ## Role Variables
@@ -77,7 +78,8 @@ newsboat_owner: str
 
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Including an example of how to use your role (for instance, with variables
+passed in as parameters) is always nice for users too:
 
 ```yaml
 - hosts: servers
@@ -93,7 +95,8 @@ Including an example of how to use your role (for instance, with variables passe
 
 ## Limitations
 
-The role does not support installation using `snap`. While this is available it seems that docker/podman containers to not support the required squashfs dependency.
+The role does not support installation using `snap`. While this is available it
+seems that docker/podman containers to not support the required squashfs dependency.
 
 ## License
 
